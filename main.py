@@ -180,9 +180,9 @@ menu_cerceve = tk.Frame(pencere, padx=10, pady=10)
 menu_cerceve.pack(padx=20, pady=20)
 
 #Huffman ağacı resmi ekledik resmi Yapay Zeka ile oluşturduk.
-resim_yolu = "OIG.jfif"
+resim_yolu = "huffmant_ree.png"
 resim = Image.open(resim_yolu)
-resim = resim.resize((150, 150))
+resim = resim.resize((225, 225))
 tk_resim = ImageTk.PhotoImage(resim)
 resim_etiketi = tk.Label(menu_cerceve, image=tk_resim)
 resim_etiketi.grid(row=0, column=0, columnspan=2, pady=20)
