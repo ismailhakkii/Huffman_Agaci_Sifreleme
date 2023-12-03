@@ -102,7 +102,7 @@ def md5_sifrele(veri):
 
 def veri_gonder():
     veri = metin_giris.get("1.0", 'end-1c')
-    veri = veri.replace('\xa0', '')  # NBSP'yi kaldır
+    veri = veri.replace('\xa0', ' ')  # NBSP'yi kaldır
 
     giris_cerceve.pack_forget()
     cikti_cerceve.pack(padx=20, pady=20)
