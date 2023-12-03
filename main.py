@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import hashlib
 from  math import  ceil
 
-# Huffman Ağacı ile Şifreleme ve Deşifreleme
+# Huffman Ağacı ile Sıkıştırma, Şifreleme ve Deşifreleme
 frekans = []
 
 class DugumAgaci(object):
@@ -61,15 +61,13 @@ def huffman_hesapla(veri):
 
     huffmanKodu = huffman_kod_agaci(dugumler[0][0])
     sifrelenmis_veri = ''.join([huffmanKodu[karakter] for karakter in veri])
-    # Verinin sıkıştırma öncesi (bit cinsinden) ve sıkıştırma sonrası boyutlarını hesaplayın
-    original_bit_size = len(veri) * 8  # Orijinal boyut bit cinsinden (1 karakter = 8 bit)
-    compressed_bit_size = len(sifrelenmis_veri)  # Sıkıştırılmış boyut bit cinsinden
 
-    # Yüzde olarak veri tasarrufunu hesaplayın
+    original_bit_size = len(veri) * 8
+    compressed_bit_size = len(sifrelenmis_veri)
+
     tasarruf_yuzdesi = ((original_bit_size - compressed_bit_size) / original_bit_size) * 100
 
     return sifrelenmis_veri, original_bit_size, compressed_bit_size, tasarruf_yuzdesi
-# Global değişkenlerin tanımlanması
 original_bit_size = None
 compressed_bit_size = None
 tasarruf_yuzdesi = None
@@ -86,7 +84,6 @@ def desifrele_veri():
     sonuc_text += '---------------------\n'
     sonuc_text += 'Deşifrelenmiş Veri: ' + sonuc + '\n'
 
-    # Sıkıştırma verimliliği bilgilerini ekleyin
     if original_bit_size is not None and compressed_bit_size is not None and tasarruf_yuzdesi is not None:
         sonuc_text += f"\nOrijinal Veri Boyutu: {original_bit_size} bit\n"
         sonuc_text += f"Sıkıştırılmış Veri Boyutu: {compressed_bit_size} bit\n"
@@ -110,19 +107,17 @@ def veri_gonder():
     giris_cerceve.pack_forget()
     cikti_cerceve.pack(padx=20, pady=20)
 
-    # Huffman ile sıkıştırma ve verimlilik bilgilerini al
     sifrelenmis_veri, original_bit_size, compressed_bit_size, tasarruf_yuzdesi = huffman_hesapla(veri)
     md5_sonuc = md5_sifrele(sifrelenmis_veri)
     byte=ceil(original_bit_size/8)
     compressed_byte=ceil(compressed_bit_size/8)
-    # Kullanıcıya sıkıştırma sonuçlarını göster
+
     sonuc = f"Huffman ile Şifrelenmiş Veri:\n{sifrelenmis_veri}\n"
     sonuc += f"Huffman ve MD5 ile Şifrelenmiş Veri:\n{md5_sonuc}\n\n"
     sonuc += f"Orijinal Veri Boyutu: {original_bit_size} bit ve {byte} byte  \n"
     sonuc += f"Sıkıştırılmış Veri Boyutu: {compressed_bit_size} bit ve {compressed_byte} byte \n"
     sonuc += f"Veri Tasarrufu: %{tasarruf_yuzdesi:.2f}\n"
 
-    # Sonucu metin çıktı bölümüne ekle
     metin_cikti.delete(1.0, tk.END)
     metin_cikti.insert(tk.END, sonuc)
 
