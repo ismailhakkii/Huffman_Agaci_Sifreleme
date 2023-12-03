@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 from PIL import Image, ImageTk
 import hashlib
+from  math import  ceil
 
 # Huffman Ağacı ile Şifreleme ve Deşifreleme
 frekans = []
@@ -60,8 +61,22 @@ def huffman_hesapla(veri):
 
     huffmanKodu = huffman_kod_agaci(dugumler[0][0])
     sifrelenmis_veri = ''.join([huffmanKodu[karakter] for karakter in veri])
-    return sifrelenmis_veri
+    # Verinin sıkıştırma öncesi (bit cinsinden) ve sıkıştırma sonrası boyutlarını hesaplayın
+    original_bit_size = len(veri) * 8  # Orijinal boyut bit cinsinden (1 karakter = 8 bit)
+    compressed_bit_size = len(sifrelenmis_veri)  # Sıkıştırılmış boyut bit cinsinden
+
+    # Yüzde olarak veri tasarrufunu hesaplayın
+    tasarruf_yuzdesi = ((original_bit_size - compressed_bit_size) / original_bit_size) * 100
+
+    return sifrelenmis_veri, original_bit_size, compressed_bit_size, tasarruf_yuzdesi
+# Global değişkenlerin tanımlanması
+original_bit_size = None
+compressed_bit_size = None
+tasarruf_yuzdesi = None
+
 def desifrele_veri():
+    global original_bit_size, compressed_bit_size, tasarruf_yuzdesi
+
     sifrelenmis_veri = desifre_metin_giris.get("1.0", 'end-1c')
     sonuc = desifrele(huffmanKodu, sifrelenmis_veri)
     sonuc_text = ' Karakter | Frekans \n'
@@ -69,9 +84,17 @@ def desifrele_veri():
     for (karakter, frekan) in frekans:
         sonuc_text += ' %-4r | %-9d \n' % (karakter, frekan)
     sonuc_text += '---------------------\n'
-    sonuc_text += 'Deşifrelenmiş Veri: ' + sonuc
+    sonuc_text += 'Deşifrelenmiş Veri: ' + sonuc + '\n'
+
+    # Sıkıştırma verimliliği bilgilerini ekleyin
+    if original_bit_size is not None and compressed_bit_size is not None and tasarruf_yuzdesi is not None:
+        sonuc_text += f"\nOrijinal Veri Boyutu: {original_bit_size} bit\n"
+        sonuc_text += f"Sıkıştırılmış Veri Boyutu: {compressed_bit_size} bit\n"
+        sonuc_text += f"Veri Tasarrufu: %{tasarruf_yuzdesi:.2f}\n"
+
     desifre_metin_giris.delete(1.0, tk.END)
     desifre_metin_giris.insert(tk.END, sonuc_text)
+    desifrele_buton.pack_forget()
 
 
 def md5_sifrele(veri):
@@ -82,16 +105,27 @@ def md5_sifrele(veri):
 
 def veri_gonder():
     veri = metin_giris.get("1.0", 'end-1c')
+    veri = veri.replace('\xa0', '')  # NBSP'yi kaldır
+
     giris_cerceve.pack_forget()
     cikti_cerceve.pack(padx=20, pady=20)
 
-    sifrelenmis_veri = huffman_hesapla(veri)
+    # Huffman ile sıkıştırma ve verimlilik bilgilerini al
+    sifrelenmis_veri, original_bit_size, compressed_bit_size, tasarruf_yuzdesi = huffman_hesapla(veri)
     md5_sonuc = md5_sifrele(sifrelenmis_veri)
+    byte=ceil(original_bit_size/8)
+    compressed_byte=ceil(compressed_bit_size/8)
+    # Kullanıcıya sıkıştırma sonuçlarını göster
+    sonuc = f"Huffman ile Şifrelenmiş Veri:\n{sifrelenmis_veri}\n"
+    sonuc += f"Huffman ve MD5 ile Şifrelenmiş Veri:\n{md5_sonuc}\n\n"
+    sonuc += f"Orijinal Veri Boyutu: {original_bit_size} bit ve {byte} byte  \n"
+    sonuc += f"Sıkıştırılmış Veri Boyutu: {compressed_bit_size} bit ve {compressed_byte} byte \n"
+    sonuc += f"Veri Tasarrufu: %{tasarruf_yuzdesi:.2f}\n"
 
-    sonuc = "Huffman ile Şifrelenmiş Veri:\n" + sifrelenmis_veri + "\n\nHuffman ve MD5 ile Şifrelenmiş Veri:\n" + md5_sonuc
-
+    # Sonucu metin çıktı bölümüne ekle
     metin_cikti.delete(1.0, tk.END)
     metin_cikti.insert(tk.END, sonuc)
+
 
 def geri_dön():
     giris_cerceve.pack_forget()
@@ -108,6 +142,7 @@ def ana_menu():
     giris_cerceve.pack_forget()
     cikti_cerceve.pack_forget()
     desifre_cerceve.pack_forget()
+    frekans_cerceve.pack_forget()
     menu_cerceve.pack(padx=20, pady=20)
 
 
@@ -117,6 +152,7 @@ def sifreleme_ekrani():
 
 pencere = tk.Tk()
 pencere.title("Huffman Şifreleme")
+
 def karakter_frekans_ekrani():
     cikti_cerceve.pack_forget()
     frekans_cerceve.pack(padx=20, pady=20)
@@ -143,8 +179,6 @@ cikis_buton_frekans.pack(side=tk.RIGHT, padx=10)
 def desifreleme_ekrani():
     menu_cerceve.pack_forget()
     desifre_cerceve.pack(padx=20, pady=20)
-
-
 
 
 menu_cerceve = tk.Frame(pencere, padx=10, pady=10)
