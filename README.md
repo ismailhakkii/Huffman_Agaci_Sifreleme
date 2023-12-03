@@ -28,3 +28,5 @@ pip install -r requirements.txt
 ![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/edb8ea52-a244-4ee9-9d5b-ac956b668fff)
 ![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/b5fd305a-53ac-4154-9c2b-d5df1ec42392)
 
+![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/19a2ace4-e6e9-4654-be5b-5b8d8c708ddb)
+![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/10890197-63d7-4eff-a622-d53906f623ac)
