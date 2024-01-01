@@ -9,7 +9,6 @@ Bu proje, verileri Huffman Şifreleme algoritması kullanarak sıkıştırmanın
 - Fonksiyon, Türev, Mod alma ve  Random gibi matematiksel metodlar kullandık.
 - Huffman kodlama algoritması ile sıkıştırma
 - Sıkıştırılmış verileri deşifre etme
-- MD5 Hash ile veri bütünlüğünü doğrulama
 - Karakter ve frekans tablosunu gösterme
 - Kullanıcı dostu grafiksel arayüz
 
