@@ -14,7 +14,7 @@ Bu proje, verileri Huffman Şifreleme algoritması kullanarak sıkıştırmanın
 
 ## Kullanım
 
-Uygulamayı kullanmak için, metni ana arayüzdeki metin kutusuna girin ve "Şifrele" butonuna tıklayın. Sıkıştırılmış veri ve ilgili MD5 hash değerini görmek için ekrana gelen bilgilere bakabilirsiniz. Deşifre etmek için, sıkıştırılmış veriyi ilgili alana yapıştırın ve "Deşifre" butonunu kullanın.
+Uygulamayı kullanmak için, metni ana arayüzdeki metin kutusuna girin ve "Şifrele" butonuna tıklayın. Sıkıştırılmış veri  değerini görmek için ekrana gelen bilgilere bakabilirsiniz. Deşifre etmek için, sıkıştırılmış veriyi ilgili alana yapıştırın ve "Deşifre" butonunu kullanın.
 
 ## Kurulum
 
