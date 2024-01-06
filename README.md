@@ -3,6 +3,12 @@
 
 Bu proje, verileri Huffman Şifreleme algoritması kullanarak sıkıştırmanın ve deşifre etmenin nasıl yapılabileceğini gösteren bir Python uygulamasıdır. Huffman Şifrelemesi, veri sıkıştırma alanında yaygın olarak kullanılan bir yöntemdir ve bu proje, bu yöntemin temel prensiplerini görsel bir arayüz aracılığıyla kullanıcılara sunar.
 
+![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/b5668953-6a30-4873-bc8a-8534fa808fe7)
+![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/716896e8-0bac-40d1-8eca-c92533feaa13)
+![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/df855337-ee04-4c52-b1a0-4e91040aa2be)
+![image](https://github.com/ismailhakkii/Huffman_Agaci_Sifreleme/assets/75014646/dac998a3-22d5-4dc7-afeb-d0ad2066129a)
+
+
 ## Özellikler
 
 - Metin girdilerini özel şifreleme ile şifreleme
