@@ -87,9 +87,10 @@ original_bit_size = None
 compressed_bit_size = None
 tasarruf_yuzdesi = None
 
+sifrelenmis_metin = ""
 
 def ozel_sifrele(metin):
-    global kaydirma
+    global kaydirma, sifrelenmis_metin
     sifrelenmis_metin = ""
     for karakter in metin:
         if karakter in ozel_alfabe:
@@ -97,6 +98,7 @@ def ozel_sifrele(metin):
             sifrelenmis_metin += ozel_alfabe[yeni_index]
         else:
             sifrelenmis_metin += karakter
+            sifrelenmis_metin="burada şifreleme sonucunuz olacak"
     return sifrelenmis_metin
 
 
@@ -126,29 +128,32 @@ def desifrele_veri():
     global huffmanKodu, frekans, original_bit_size, compressed_bit_size, tasarruf_yuzdesi
     desifrele_buton.pack_forget()
 
+    # Kullanıcıdan Huffman kodunu alıyoruz
+    huffman_kodu = desifre_metin_giris.get("1.0", 'end-1c')
 
-    # Şifrelenmiş veriyi kullanıcı girişinden alıyoruz
-    sifrelenmis_veri = desifre_metin_giris.get("1.0", 'end-1c')
-
-    # Deşifreleme işlemini yapıp ve ters Huffman kodunu kullanarak deşifrelenmiş veriyi elde ettik
+    # Huffman kodunu kullanarak şifrelenmiş veriyi elde ediyoruz
     ters_huffmanKodu = {v: k for k, v in huffmanKodu.items()}
     karakter = ""
-    desifrelenmis_veri = ""
-    for bit in sifrelenmis_veri:
+    sifrelenmis_veri = ""
+    for bit in huffman_kodu:
         karakter += bit
         if karakter in ters_huffmanKodu:
-            desifrelenmis_veri += ters_huffmanKodu[karakter]
+            sifrelenmis_veri += ters_huffmanKodu[karakter]
             karakter = ""
 
-    sonuc_text = ' Karakter | Frekans \n'
-    sonuc_text += '---------------------\n'
-    for (karakter, frekan) in frekans:
-        sonuc_text += ' %-4r | %-9d \n' % (karakter, frekan)
-    sonuc_text += '---------------------\n'
-    sonuc_text += 'Deşifrelenmiş Veri: ' + desifrelenmis_veri + '\n'
+    # Şifrelenmiş veriyi özel şifreleme algoritması ile deşifre ediyoruz
+    desifrelenmis_veri = ""
+    for karakter in sifrelenmis_veri:
+        if karakter in ozel_alfabe:
+            eski_index = (ozel_alfabe.index(karakter) - kaydirma) % len(ozel_alfabe)
+            desifrelenmis_veri += ozel_alfabe[eski_index]
+        else:
+            desifrelenmis_veri += karakter
 
+    sonuc_text = 'Deşifrelenmiş Veri: ' + desifrelenmis_veri + '\n'
     desifre_metin_giris.delete("1.0", tk.END)
     desifre_metin_giris.insert("1.0", sonuc_text)
+
 
 
 def geri_don():
@@ -194,6 +199,7 @@ def karakter_frekans_ekrani():
 
     otelemis_alfabe = alfabeyi_otele(kaydirma, ozel_alfabe)
     frekans_text += '---------------------\n'
+    frekans_text+=f'şifrelenmiş veri ={sifrelenmis_metin} \n'
     frekans_text += f"Ötelenmiş Alfabe: {otelemis_alfabe}\n"
 
     frekans_metin_cikti.delete(1.0, tk.END)
